@@ -1,25 +1,20 @@
+'use client'
+
+import { useRouter } from 'next/navigation'
 import './globals.css'
-import Login from './login/page'
-import { auth0 } from '@/lib/auth0'
+import { globalSession } from '@/lib/auth0'
+import { use } from 'react'
+import { SessionData } from '@auth0/nextjs-auth0/types'
 
-export default async function Home() {
-  // Fetch the user session
-  const session = await auth0.getSession()
+export default function Home({ children }: { children: React.ReactNode }) {
+  const router = useRouter()
+  const session = use<SessionData | null>(globalSession)
 
-  // If no session, show sign-up and login buttons
+  // If no session, show login buttons
   if (!session) {
-    return <Login></Login>
+    router.push('/login')
   }
 
   // If session exists, show a welcome message and logout button
-  return (
-    <main>
-      <h1>Welcome, {session.user.name}!</h1>
-      <p>
-        <a href='/logout'>
-          <button>Log out</button>
-        </a>
-      </p>
-    </main>
-  )
+  router.push('/dashboard')
 }
