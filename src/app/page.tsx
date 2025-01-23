@@ -6,7 +6,7 @@ import { globalSession } from '@/lib/auth0'
 import { use } from 'react'
 import { SessionData } from '@auth0/nextjs-auth0/types'
 
-export default function Home({ children }: { children: React.ReactNode }) {
+export default function Home() {
   const router = useRouter()
   const session = use<SessionData | null>(globalSession)
 
