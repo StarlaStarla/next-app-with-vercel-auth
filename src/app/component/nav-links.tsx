@@ -33,7 +33,7 @@ export default function NavLinks() {
               }
             )}
           >
-            <Link className='w-6' href={link.icon} />
+            {/* <Image className='w-6' href={link.icon}></Image> */}
             <p className='hidden md:block'>{link.name}</p>
           </Link>
         )
