@@ -1,20 +1,23 @@
-// import { useRouter } from 'next/navigation'
+'use client'
 import './globals.css'
-// // import { globalSession } from '@/lib/auth0'
-// import { use } from 'react'
-// import { SessionData } from '@auth0/nextjs-auth0/types'
-import { auth0 } from '@/lib/auth0'
+import { useUser } from '@auth0/nextjs-auth0/client'
+import Image from 'next/image'
 import Login from './login/page'
+import Page from './dashboard/page'
 
-export default async function Home() {
-  // const router = useRouter()
+export default function Home() {
+  const loadingImg = 'https://cdn.auth0.com/blog/hello-auth0/loader.svg'
+  const { user, isLoading } = useUser()
+  if (isLoading) {
+    return (
+      <div className='page-layout'>
+        <Image src={loadingImg} alt='Loading...' height={50} width={50} />
+      </div>
+    )
+  }
+  if (!user) {
+    return <Login></Login>
+  }
 
-  const session = await auth0.getSession()
-  return <Login></Login>
-  // const session = use<SessionData | null>(globalSession)
-  // If no session, show login buttons
-  // if (!session) {
-  // router.push('/login')
-  // }
-  // router.push('/dashboard')
+  return <Page></Page>
 }
